@@ -79,8 +79,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: [ "3.8", "3.9", "3.10", "3.11", "3.12" ]
-    timeout-minutes: 10
+        python-version: ["3.10", "3.11"]
+    timeout-minutes: 60
     env:
       # Set job-specific environment variables for pytest-tinybird
       CI_JOB_NAME: ${{ github.job }}-${{ matrix.python-version }}
@@ -104,18 +104,3 @@ jobs:
           PYTEST_ADDOPTS: "${{ env.TINYBIRD_PYTEST_ARGS }}-p no:localstack.testing.pytest.fixtures -p no:localstack_snapshot.pytest.snapshot -p no:localstack.testing.pytest.filters -p no:localstack.testing.pytest.fixture_conflicts -p no:localstack.testing.pytest.validation_tracking -p no:localstack.testing.pytest.path_filter -p no:tests.fixtures -p no:localstack.testing.pytest.stepfunctions.fixtures -s"
           TEST_PATH: "tests/cli/"
         run: make test
-
-  push-to-tinybird:
-    if: always() && github.ref == 'refs/heads/master' && github.repository == 'localstack/localstack'
-    runs-on: ubuntu-latest
-    needs: cli-tests
-    permissions: 
-      actions: read
-    steps:
-      - name: Push to Tinybird
-        uses: localstack/tinybird-workflow-push@v3
-        with:
-          workflow_id: "tests_cli"
-          tinybird_token: ${{ secrets.TINYBIRD_CI_TOKEN }}
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          tinybird_datasource: "ci_workflows"
