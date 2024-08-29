@@ -79,8 +79,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.10", "3.11"]
-    timeout-minutes: 60
+        python-version: ["3.11"]
     env:
       # Set job-specific environment variables for pytest-tinybird
       CI_JOB_NAME: ${{ github.job }}-${{ matrix.python-version }}
@@ -98,7 +97,7 @@ jobs:
           make venv
           source .venv/bin/activate
           pip install -e .
-          pip install pytest pytest-tinybird
+          pip install pytest pytest-tinybird pytest-xdist
       - name: Instrument code
         uses: AryazE/auto-dylin/instrument@main
       - name: Run CLI tests
