@@ -110,7 +110,7 @@ docker-cp-coverage:
 		docker rm -v $$id
 
 test:              		  ## Run automated tests
-	(python -m pytest -n 4 --log-cli-level=$(PYTEST_LOGLEVEL) $(PYTEST_ARGS) $(TEST_PATH))
+	(pytest -n 4 $(PYTEST_ARGS) $(TEST_PATH))
 
 test-coverage: LOCALSTACK_INTERNAL_TEST_COLLECT_METRIC = 1
 test-coverage: TEST_EXEC = python -m coverage run $(COVERAGE_ARGS) -m

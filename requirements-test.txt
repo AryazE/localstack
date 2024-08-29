@@ -318,6 +318,7 @@ pytest-split==0.9.0
     # via localstack-core (pyproject.toml)
 pytest-tinybird==0.2.0
     # via localstack-core (pyproject.toml)
+pytest-xdist
 python-dateutil==2.9.0.post0
     # via
     #   botocore
